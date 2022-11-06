@@ -2,6 +2,7 @@ let params = new URLSearchParams(document.location.search);
 let id = params.get("id");
 let url = "http://localhost:3000/api/products/" + id;
 console.log(url);
+// let cart = getCart();
 
 ajaxGet(url, function (reponse) {
   let product = JSON.parse(reponse);
@@ -37,6 +38,7 @@ function addProductToCart(product) {
       color: product.colors,
     };
     cart.push(productInCart);
+    console.log(cart);
     let addProductToCart = JSON.stringify(cart);
     localStorage.setItem("cart", addProductToCart);
   });
