@@ -6,6 +6,11 @@ console.log(url);
 ajaxGet(url, function (reponse) {
   let product = JSON.parse(reponse);
   console.log(product);
+  displayProductDescription(product);
+  addProductToCart(product);
+});
+
+function displayProductDescription(product) {
   let productName = document.getElementById("title");
   productName.innerText = product.name;
   let productPrice = document.getElementById("price");
@@ -19,4 +24,20 @@ ajaxGet(url, function (reponse) {
     colorOption.setAttribute("value", product.colors[i]);
     selectColor.appendChild(colorOption);
   }
-});
+}
+
+function addProductToCart(product) {
+  let addToCart = document.getElementById("addToCart");
+  addToCart.addEventListener("click", function () {
+    let cart = [];
+    let productInCart = {
+      id: product._id,
+      name: product.name,
+      price: product.price,
+      color: product.colors,
+    };
+    cart.push(productInCart);
+    let addProductToCart = JSON.stringify(cart);
+    localStorage.setItem("cart", addProductToCart);
+  });
+}
