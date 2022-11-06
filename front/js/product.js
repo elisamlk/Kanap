@@ -1,26 +1,22 @@
-ajaxGet("http://localhost:3000/api/products", function (reponse) {
-  let products = JSON.parse(reponse);
-  console.log(products);
-  // Affichage des caractéristiques du produit séléctionné
-  // A refaire et récupérer les caractéristiques d'un seul produit avec l'ID
-  let params = new URLSearchParams(document.location.search);
-  let id = params.get("id");
+let params = new URLSearchParams(document.location.search);
+let id = params.get("id");
+let url = "http://localhost:3000/api/products/" + id;
+console.log(url);
+
+ajaxGet(url, function (reponse) {
+  let product = JSON.parse(reponse);
+  console.log(product);
   let productName = document.getElementById("title");
+  productName.innerText = product.name;
   let productPrice = document.getElementById("price");
+  productPrice.innerText = product.price;
   let productDescription = document.getElementById("description");
+  productDescription.innerText = product.description;
   let selectColor = document.getElementById("colors");
-  console.log(selectColor);
-  for (let i in products) {
-    let productId = products[i]._id;
-    if (productId == id) {
-      console.log(products[i].name);
-      productName.innerText = products[i].name;
-      productPrice.innerText = products[i].price;
-      productDescription.innerText = products[i].description;
-      for (let j in products[i].colors) {
-        console.log(products[i].colors[j]);
-        selectColor.value = products[i].colors[j];
-      }
-    }
+  for (let i in product.colors) {
+    let colorOption = document.createElement("option");
+    colorOption.textContent = product.colors[i];
+    colorOption.setAttribute("value", product.colors[i]);
+    selectColor.appendChild(colorOption);
   }
 });
